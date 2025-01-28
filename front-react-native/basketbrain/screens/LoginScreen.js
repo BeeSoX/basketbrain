@@ -1,16 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, Text, View, TouchableOpacity, FlatList, TextInput} from 'react-native';
-import {React, useEffect, useState} from 'react';
-
+import {StyleSheet, Text, View, TouchableOpacity, TextInput} from 'react-native';
+import {React, useState} from 'react';
 
 const LoginScreen = ({navigation}) => {
+    const stackRegister = () => {
+        navigation.navigate('Register', {});
+    };
     const [email, onChangeEmail] = useState('');
     const [password, onChangePassword] = useState('');
     console.log(email, password);
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Connexion</Text>
+            <Text style={styles.title}>Sign in</Text>
 
             <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>Email</Text>
@@ -32,11 +33,11 @@ const LoginScreen = ({navigation}) => {
             </View>
 
             <TouchableOpacity style={styles.loginButton}>
-                <Text style={styles.loginButtonText}>Sign in</Text>
+                <Text style={styles.loginButtonText}>Log in</Text>
             </TouchableOpacity>
 
             <TouchableOpacity>
-                <Text style={styles.register}>
+                <Text style={styles.register} onPress={stackRegister}>
                     No account yet ? Sign up there
                 </Text>
             </TouchableOpacity>
@@ -48,7 +49,7 @@ const LoginScreen = ({navigation}) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#F8F9FA',
         padding: 20,
     },
 
