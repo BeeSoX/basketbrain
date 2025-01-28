@@ -1,5 +1,4 @@
 import react from "eslint-plugin-react";
-import typescriptEslint from "@typescript-eslint/eslint-plugin";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import js from "@eslint/js";
@@ -16,13 +15,10 @@ const compat = new FlatCompat({
 export default [...compat.extends(
     "eslint:recommended",
     "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
 ), {
     plugins: {
         react,
-        "@typescript-eslint": typescriptEslint,
     },
-
 
     settings: {
         react: {
