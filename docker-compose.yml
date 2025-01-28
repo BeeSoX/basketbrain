@@ -1,17 +1,15 @@
-version: '3.9'
-
 services:
-  postgres:
+  database:
     image: postgres:15
-    container_name: symfony_postgres
-    ports:
-      - "5432:5432"
+    container_name: back-symfony-database-1
     environment:
       POSTGRES_USER: symfony
       POSTGRES_PASSWORD: symfony
       POSTGRES_DB: symfony_db
+    ports:
+      - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - database_data:/var/lib/postgresql/data
 
 volumes:
-  postgres_data:
+  database_data:
