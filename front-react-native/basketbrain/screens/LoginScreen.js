@@ -1,111 +1,115 @@
 import { StatusBar } from 'expo-status-bar';
-import {StyleSheet, Text, View, TouchableOpacity, FlatList} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, FlatList, TextInput} from 'react-native';
 import {React, useEffect, useState} from 'react';
-import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 
 const LoginScreen = ({navigation}) => {
+    const [email, onChangeEmail] = useState('');
+    const [password, onChangePassword] = useState('');
+    console.log(email, password);
 
     return (
-        // exemple navigation avec btn <TouchableOpacity style={{ marginRight: 10}} onPress={() => {
-        //                         navigation.navigate('Home', {});
-        //                     }}><FontAwesome name='sign-out' size={24} color='white'/></TouchableOpacity>
         <View style={styles.container}>
-            <Text>TEST</Text>
+            <Text style={styles.title}>Connexion</Text>
+
+            <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Email</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter Email"
+                    placeholderTextColor="#a19595"
+                />
+            </View>
+
+            <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Mot de passe</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder="Enter password"
+                    placeholderTextColor="#a19595"
+                    secureTextEntry
+                />
+            </View>
+
+            <TouchableOpacity style={styles.loginButton}>
+                <Text style={styles.loginButtonText}>Sign in</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity>
+                <Text style={styles.register}>
+                    No account yet ? Sign up there
+                </Text>
+            </TouchableOpacity>
         </View>
     );
 }
 
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F8F9FA',
+        backgroundColor: '#FFFFFF',
         padding: 20,
-        paddingTop: 50,
     },
-    text: {
+
+    title: {
         color: '#264653',
-    },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 20,
-        position: 'relative',
-    },
-    primaryButton: {
-        position: 'absolute',
-        right: 0,
-        backgroundColor: '#2A9D8F', // Turquoise
-        padding: 15,
-        borderRadius: 30,
-        elevation: 3,    // Android shadow
-        shadowColor: '#000', // iOS shadow
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-    },
-    textPrimaryButton: {
-        color: '#FFFFFF',
-        fontSize: 16,
+        fontSize: 28,
         fontWeight: 'bold',
+        marginBottom: 30,
         textAlign: 'center',
     },
-    title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        borderBottomWidth: 3,
-        borderBottomColor: '#2A9D8F',
-        paddingBottom: 8,
+
+    inputContainer: {
+        marginBottom: 20,
     },
-    body: {
-        alignItems: 'center',
+    inputLabel: {
+        color: '#264653',
+        fontSize: 16,
+        marginBottom: 8,
+        fontWeight: '500',
     },
-    bodyTitle: {
-        fontSize: 24,
-        fontWeight: '400',
-        color: '#2A9D8F',
+    input: {
+        backgroundColor: '#F5F5F5',
+        borderWidth: 1,
+        borderColor: '#2A9D8F',
+        borderRadius: 8,
+        padding: 15,
+        fontSize: 16,
+        color: '#264653',
     },
-    bodyMatch: {
-        backgroundColor: '#FFFFFF',
-        borderRadius: 12,
-        padding: 20,
-        marginVertical: 10,
-        borderLeftWidth: 4,
-        borderLeftColor: '#2A9D8F',
+    inputFocused: {
+        borderColor: '#E9C46A',
+        borderWidth: 2,
+    },
+    loginButton: {
+        backgroundColor: '#2A9D8F',
+        padding: 15,
+        borderRadius: 8,
+        marginTop: 20,
         // Shadow
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
             height: 2,
         },
-        shadowOpacity: 0.23,
-        shadowRadius: 2.62,
-        elevation: 4,
-        marginBottom: '30',
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
-    secondaryButton: {
-        backgroundColor: '#F4A261',
-        padding: 15,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: '#F4A261',
-        alignItems: 'center',
+    loginButtonText: {
+        color: '#FFFFFF',
+        fontSize: 18,
+        fontWeight: 'bold',
+        textAlign: 'center',
     },
-    textSecondaryButton: {
-        color: '#264653',
-        fontSize: 16,
-        fontWeight: '600',
-    },
-    matchDate: {
-        fontWeight: '100',
-        color: '#264653',
-    },
-    matchContent: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        gap: 10,
+
+
+    register: {
+        color: '#F4A261',
+        textAlign: 'center',
+        marginTop: 15,
+        fontSize: 14,
     }
 });
 
