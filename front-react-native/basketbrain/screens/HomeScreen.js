@@ -32,9 +32,6 @@ const HomeScreen = ({navigation}) => {
     }, []);
 console.log(data);
     return (
-        // exemple navigation avec btn <TouchableOpacity style={{ marginRight: 10}} onPress={() => {
-        //                         navigation.navigate('Home', {});
-        //                     }}><FontAwesome name='sign-out' size={24} color='white'/></TouchableOpacity>
         <View style={styles.container}>
             <View style={styles.header}>
                 <Text style={[styles.title, styles.text]}>BasketBrain</Text>
@@ -81,11 +78,11 @@ const styles = StyleSheet.create({
     primaryButton: {
         position: 'absolute',
         right: 0,
-        backgroundColor: '#2A9D8F', // Turquoise
+        backgroundColor: '#2A9D8F',
         padding: 15,
         borderRadius: 30,
-        elevation: 3,    // Android shadow
-        shadowColor: '#000', // iOS shadow
+        elevation: 3,
+        shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
@@ -118,7 +115,6 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         borderLeftWidth: 4,
         borderLeftColor: '#2A9D8F',
-        // Shadow
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
