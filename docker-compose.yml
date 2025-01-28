@@ -5,13 +5,13 @@ services:
     image: postgres:15
     container_name: react_native_postgres
     ports:
-      - "5432:5432" # Expose le port PostgreSQL
+      - "5432:5432"
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: password
       POSTGRES_DB: react_native_db
     volumes:
-      - postgres_data:/var/lib/postgresql/data # Persistance des données
+      - postgres_data:/var/lib/postgresql/data
 
 volumes:
   postgres_data:
