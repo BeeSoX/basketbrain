@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import {StyleSheet, Text, View, TouchableOpacity, FlatList} from 'react-native';
 import {React, useEffect, useState} from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
@@ -12,10 +11,10 @@ const HomeScreen = ({navigation}) => {
     const getMatches = async () => {
         try {
             const currentDate = new Date();
-            const day = String(currentDate.getDate()).padStart(2, '0'); // Ajoute un zéro devant si nécessaire
-            const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Ajoute un zéro devant si nécessaire
+            const day = String(currentDate.getDate()).padStart(2, '0');
+            const month = String(currentDate.getMonth() + 1).padStart(2, '0');
             const year = currentDate.getFullYear();
-            const fullDate = `${year}-${month}-${day}`; // Concatène les valeurs dans le format souhaité
+            const fullDate = `${year}-${month}-${day}`;
             const response = await fetch(`https://api.balldontlie.io/nba/v1/games?start_date=${fullDate}`, {
                 headers: {
                     'Authorization': '272bb744-076e-4d8e-b7d9-886b4f577124',
