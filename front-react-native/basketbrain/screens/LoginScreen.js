@@ -4,59 +4,14 @@ import {React, useEffect, useState} from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 
 
-const HomeScreen = ({navigation}) => {
-    const stackLogin = () => {
-        navigation.navigate('Login', {});
-    };
-    const [data, setData] = useState([]);
-    const getMatches = async () => {
-        try {
-            const currentDate = new Date();
-            const day = String(currentDate.getDate()).padStart(2, '0'); // Ajoute un zéro devant si nécessaire
-            const month = String(currentDate.getMonth() + 1).padStart(2, '0'); // Ajoute un zéro devant si nécessaire
-            const year = currentDate.getFullYear();
-            const fullDate = `${year}-${month}-${day}`; // Concatène les valeurs dans le format souhaité
-            const response = await fetch(`https://api.balldontlie.io/nba/v1/games?start_date=${fullDate}`, {
-                headers: {
-                    'Authorization': '272bb744-076e-4d8e-b7d9-886b4f577124',
-                }
-            });
-            const json = await response.json();
-            setData(json.data);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-    useEffect(() => {
-        getMatches()
-    }, []);
-console.log(data);
+const LoginScreen = ({navigation}) => {
+
     return (
         // exemple navigation avec btn <TouchableOpacity style={{ marginRight: 10}} onPress={() => {
         //                         navigation.navigate('Home', {});
         //                     }}><FontAwesome name='sign-out' size={24} color='white'/></TouchableOpacity>
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Text style={[styles.title, styles.text]}>BasketBrain</Text>
-                <TouchableOpacity style={styles.primaryButton} onPress={stackLogin}><FontAwesome name="user" size={24} color="white" /></TouchableOpacity>
-            </View>
-            <View style={styles.body}>
-                <Text style={styles.bodyTitle}>Matchs à venir</Text>
-                <FlatList data={data} scrollEnabled={true}
-                          renderItem={({item}) =>
-                <View style={styles.bodyMatch}>
-                    <Text style={styles.matchDate}>{item.date}</Text>
-                    <View style={styles.matchContent}>
-                        <Text style={styles.matchText}>
-                            {item.home_team.name} VS. {item.visitor_team.name}
-                    </Text>
-                        <TouchableOpacity style={styles.secondaryButton}><Text style={styles.textSecondaryButton}>Parier</Text></TouchableOpacity>
-                    </View>
-                </View>}
-                          keyExtractor={(item) => item.id}
-                          contentContainerStyle={{ paddingBottom: 100 }}
-                          showsVerticalScrollIndicator={false}/>
-            </View>
+            <Text>TEST</Text>
         </View>
     );
 }
@@ -154,4 +109,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default HomeScreen;
+export default LoginScreen;
