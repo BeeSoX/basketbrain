@@ -1,3 +1,29 @@
 _security_logout:
     resource: security.route_loader.logout
     type: service
+security:
+  password_hashers:
+    Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+
+  providers:
+    users_in_database:
+      entity:
+        class: App\Entity\User
+        property: userEmail
+
+  firewalls:
+    dev:
+      pattern: ^/(_(profiler|wdt)|css|images|js)/
+      security: false
+
+    api:
+      pattern: ^/api/
+      stateless: true
+      provider: users_in_database
+      json_login:
+        check_path: user_login
+        username_path: email
+        password_path: password
+
+  access_control:
+    - { path: ^/api/user/me, roles: IS_AUTHENTICATED_FULLY }
