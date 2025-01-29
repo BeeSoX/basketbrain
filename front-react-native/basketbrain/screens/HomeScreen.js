@@ -37,7 +37,7 @@ console.log(data);
                 <TouchableOpacity style={styles.primaryButton} onPress={stackLogin}><FontAwesome name="user" size={24} color="white" /></TouchableOpacity>
             </View>
             <View style={styles.body}>
-                <Text style={styles.bodyTitle}>Matchs à venir</Text>
+                <Text style={styles.bodyTitle}>Upcoming matches</Text>
                 <FlatList data={data} scrollEnabled={true}
                           renderItem={({item}) =>
                 <View style={styles.bodyMatch}>
@@ -46,7 +46,7 @@ console.log(data);
                         <Text style={styles.matchText}>
                             {item.home_team.name} VS. {item.visitor_team.name}
                     </Text>
-                        <TouchableOpacity style={styles.secondaryButton}><Text style={styles.textSecondaryButton}>Parier</Text></TouchableOpacity>
+                        <TouchableOpacity style={styles.secondaryButton}><Text style={styles.textSecondaryButton}>Bet</Text></TouchableOpacity>
                     </View>
                 </View>}
                           keyExtractor={(item) => item.id}
