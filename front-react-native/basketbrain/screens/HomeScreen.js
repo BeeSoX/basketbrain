@@ -42,11 +42,23 @@ console.log(data);
                           renderItem={({item}) =>
                 <View style={styles.bodyMatch}>
                     <Text style={styles.matchDate}>{item.date}</Text>
+                    <Text style={styles.matchDate}>{item.id}</Text>
                     <View style={styles.matchContent}>
                         <Text style={styles.matchText}>
                             {item.home_team.name} VS. {item.visitor_team.name}
                     </Text>
-                        <TouchableOpacity style={styles.secondaryButton}><Text style={styles.textSecondaryButton}>Bet</Text></TouchableOpacity>
+                        <TouchableOpacity
+                            style={styles.secondaryButton}
+                            onPress={() => navigation.navigate('Match', {
+                                game: {
+                                    id: item.id, // id du match
+                                    home_team: item.home_team, // objet equipe domicile
+                                    visitor_team: item.visitor_team
+                                } // objet equipe visiteur
+                            })}
+                        >
+                            <Text style={styles.textSecondaryButton}>Bet</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>}
                           keyExtractor={(item) => item.id}

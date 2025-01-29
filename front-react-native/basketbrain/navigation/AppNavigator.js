@@ -3,6 +3,7 @@ import { createNativeStackNavigator} from "@react-navigation/native-stack";
 import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
+import MatchScreen from "../screens/MatchScreen";
 // import TabNavigator from "./TabNavigator";
 
 
@@ -33,6 +34,10 @@ const AppNavigator = () => {
             <Stack.Screen
                 name="Register"
                 component={RegisterScreen}
+            />
+            <Stack.Screen
+                name="Match"
+                component={MatchScreen}
             />
             {/*<Stack.Screen*/}
             {/*    name="TabNavigator"*/}

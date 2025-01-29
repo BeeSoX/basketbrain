@@ -1,8 +1,21 @@
-import {StyleSheet, Text, View, TouchableOpacity, TextInput} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, TextInput, Platform} from 'react-native';
 import {React, useState} from 'react';
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 
 const RegisterScreen = ({navigation}) => {
+    const [date, setDate] = useState(new Date());
+    const [showPicker, setShowPicker] = useState(false);
+
+    const toggleDatePicker = () => {
+        setShowPicker(!showPicker);
+    };
+
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShowPicker(Platform.OS === 'ios');
+        setDate(currentDate);
+    };
     const [email, onChangeEmail] = useState('');
     const [password, onChangePassword] = useState('');
     console.log(email, password);
@@ -27,6 +40,30 @@ const RegisterScreen = ({navigation}) => {
                     placeholder="Enter last name"
                     placeholderTextColor="#a19595"
                 />
+            </View>
+            <View style={styles.inputContainer}>
+                <Text style={styles.inputLabel}>Birth date</Text>
+                <TouchableOpacity onPress={toggleDatePicker}>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Enter birth date"
+                        placeholderTextColor="#a19595"
+                        value={date.toLocaleDateString()}
+                        editable={false}
+                    />
+                </TouchableOpacity>
+
+                {showPicker && (
+                    <DateTimePicker
+                        value={date}
+                        mode="date"
+                        display="default"
+                        onChange={onChange}
+                        maximumDate={new Date()}
+                        minimumDate={new Date(1900, 0, 1)}
+                        style={{ backgroundColor: '#2A9D8F' }}
+                    />
+                )}
             </View>
             <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>Email</Text>

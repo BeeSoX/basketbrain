@@ -2,10 +2,11 @@ import {StyleSheet, View} from 'react-native';
 import {React} from 'react';
 
 
-const MatchScreen = () => {
+const MatchScreen = ({route}) => {
+    const {idTeams} = route.params;
+    console.log(idTeams);
     return (
         <View style={styles.container}>
-
         </View>
     );
 }
