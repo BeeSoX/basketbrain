@@ -1,0 +1,39 @@
+name: Symfony and React Native
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+  contents: read
+
+jobs:
+  # symfony-lint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - uses: actions/checkout@v4
+  #   - name: Setup PHP
+  #     uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
+  #     with:
+  #       php-version: '8.0'
+  #   - name: Install PHP CodeSniffer
+  #     run: composer global require "squizlabs/php_codesniffer=*"
+  #   - name: Run PHP CodeSniffer
+  #     run: ~/.composer/vendor/bin/phpcs --standard=PSR12 back-symfony/src
+
+  react-native-lint:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+    - name: Install ESLint
+      run: npm install eslint
+      working-directory: front-react-native/basketbrain
+    - name: Run ESLint
+      run: npx eslint
+      working-directory: front-react-native/basketbrain
