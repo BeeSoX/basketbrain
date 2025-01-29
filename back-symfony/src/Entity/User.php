@@ -4,9 +4,10 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
 #[ORM\Entity]
-class User implements UserInterface
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,7 +23,7 @@ class User implements UserInterface
     #[ORM\Column(type: 'string', length: 50, unique: true, name: 'user_email')]
     private string $userEmail;
 
-    #[ORM\Column(type: 'string', length: 50, name: 'user_password')]
+    #[ORM\Column(type: 'string', length: 255, name: 'user_password')]
     private string $userPassword;
 
     #[ORM\Column(type: 'date', name: 'user_birthdate')]
@@ -113,11 +114,6 @@ class User implements UserInterface
         return ['ROLE_USER'];
     }
 
-    public function getPassword(): string
-    {
-        return $this->userPassword;
-    }
-
     public function getSalt(): ?string
     {
         return null;
@@ -131,5 +127,9 @@ class User implements UserInterface
     public function getUserIdentifier(): string
     {
         return $this->userEmail; // ... aucune idée mais il fait la tete sans cette fonction
+    }
+    public function getPassword(): ?string
+    {
+        return $this->userPassword;
     }
 }
