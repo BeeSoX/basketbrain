@@ -1,4 +1,4 @@
-import {StyleSheet, Text, View, TouchableOpacity, TextInput, Platform} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, ScrollView} from 'react-native';
 import {React, useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -21,7 +21,7 @@ const RegisterScreen = ({navigation}) => {
     console.log(email, password);
 
     return (
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <Text style={styles.title}>Sign up</Text>
 
             <View style={styles.inputContainer}>
@@ -85,7 +85,7 @@ const RegisterScreen = ({navigation}) => {
             <TouchableOpacity style={styles.loginButton}>
                 <Text style={styles.loginButtonText}>Sign up</Text>
             </TouchableOpacity>
-        </View>
+        </ScrollView>
     );
 }
 
@@ -94,6 +94,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#F8F9FA',
         padding: 20,
+        paddingBottom: 100,
     },
 
     title: {
@@ -131,7 +132,6 @@ const styles = StyleSheet.create({
         padding: 15,
         borderRadius: 8,
         marginTop: 20,
-        // Shadow
         shadowColor: "#000",
         shadowOffset: {
             width: 0,
