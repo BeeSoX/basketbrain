@@ -42,10 +42,10 @@ class UserController extends AbstractController
         $user = new User();
         $user->setUserEmail($data['email']);
         $user->setUserPassword($this->passwordEncoder->encodePassword($user, $data['password']));
-        $user->setUserFirstname($data['firstname'] ?? ''); // Valeur par défaut
+        $user->setUserFirstname($data['firstname'] ?? '');
         $user->setUserLastname($data['lastname'] ?? '');
         $user->setUserBirthdate(new \DateTime($data['birthdate'] ?? '2000-01-01'));
-        $user->setUserCredit(0.0); // Par défaut
+        $user->setUserCredit(0.0);
 
         $this->entityManager->persist($user);
         $this->entityManager->flush();
