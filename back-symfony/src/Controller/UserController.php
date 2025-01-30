@@ -39,7 +39,6 @@ class UserController extends AbstractController
     public function register(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        var_dump($data);
 
         if (!isset($data['email'], $data['password'])) {
             return new JsonResponse(['message' => 'Email et mot de passe requis'], JsonResponse::HTTP_BAD_REQUEST);

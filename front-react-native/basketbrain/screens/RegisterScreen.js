@@ -21,33 +21,50 @@ const RegisterScreen = ({navigation}) => {
     };
 
     const registerUser = async () => {
+        const requestBody = {
+            email: email.trim(),
+            password: password.trim(),
+            firstname: firstname.trim(),
+            lastname: lastname.trim(),
+            birthdate: date.toISOString().split('T')[0],
+        };
+
+        console.log("Données envoyées:", JSON.stringify(requestBody));
+
         try {
-            const response = await fetch('http://192.168.247.1:8000/api/user/register', {
+            const response = await fetch('http://127.0.0.1:8000/api/user/register', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/json; charset=UTF-8',
                 },
-                body: JSON.stringify({
-                    email: email,
-                    password: password,
-                    firstname: firstname,
-                    lastname: lastname,
-                    birthdate: date.toISOString().split('T')[0],
-                }),
+                body: JSON.stringify(requestBody),
             });
 
-            const data = await response.json();
+            console.log("Statut de la réponse:", response.status);
+
+            const textData = await response.text(); // Récupérer la réponse brute
+            console.log("Réponse brute de l'API:", textData);
+
+            let data;
+            try {
+                data = JSON.parse(textData); // Essayer de parser en JSON
+                console.log("Réponse JSON de l'API:", data);
+            } catch (e) {
+                console.error("Erreur de parsing JSON:", e);
+            }
+
             if (response.ok) {
-                alert(data.message);
+                alert(data.message || "Inscription réussie !");
                 navigation.navigate('Connexion');
             } else {
-                alert(data.message);
+                alert("Erreur d'inscription: " + (data?.message || "Problème inconnu"));
             }
         } catch (error) {
-            console.error(error);
+            console.error("Erreur lors de la requête:", error);
             alert('Erreur lors de la connexion');
         }
     };
+
 
     return (
         <ScrollView style={styles.container}>
