@@ -5,6 +5,7 @@ import BottomMenu from "../component/BottomMenu";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 
+
 const HomeScreen = ({navigation}) => {
     const stackLogin = () => {
         navigation.navigate('Login', {});

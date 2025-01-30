@@ -55,7 +55,7 @@ const RegisterScreen = ({navigation}) => {
 
             if (response.ok) {
                 alert(data.message || "Inscription réussie !");
-                navigation.navigate('Connexion');
+                navigation.navigate('Login');
             } else {
                 alert("Erreur d'inscription: " + (data?.message || "Problème inconnu"));
             }
