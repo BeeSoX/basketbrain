@@ -49,9 +49,6 @@ jobs:
     - name: Install dependencies
       run: composer install
       working-directory: back-symfony
-    - name : create database
-      run: php bin/console doctrine:database:create --if-not-exists
-      working-directory: back-symfony
     - name: Run tests
       run: php bin/phpunit
       working-directory: back-symfony
