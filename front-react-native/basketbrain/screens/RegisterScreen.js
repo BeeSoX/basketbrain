@@ -2,10 +2,13 @@ import {StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, ScrollVie
 import {React, useState} from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-
 const RegisterScreen = ({navigation}) => {
     const [date, setDate] = useState(new Date());
     const [showPicker, setShowPicker] = useState(false);
+    const [email, onChangeEmail] = useState('');
+    const [password, onChangePassword] = useState('');
+    const [firstname, onChangeFirstname] = useState('');
+    const [lastname, onChangeLastname] = useState('');
 
     const toggleDatePicker = () => {
         setShowPicker(!showPicker);
@@ -16,37 +19,67 @@ const RegisterScreen = ({navigation}) => {
         setShowPicker(Platform.OS === 'ios');
         setDate(currentDate);
     };
-    const [email, onChangeEmail] = useState('');
-    const [password, onChangePassword] = useState('');
-    console.log(email, password);
+
+    const registerUser = async () => {
+        try {
+            const response = await fetch('http://localhost:8000/api/user/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    firstname: firstname,
+                    lastname: lastname,
+                    birthdate: date.toISOString().split('T')[0],
+                }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                alert(data.message);
+                navigation.navigate('Connexion');
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Erreur lors de la connexion');
+        }
+    };
 
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.title}>Sign up</Text>
 
             <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>First name</Text>
+                <Text style={styles.inputLabel}>Prénom</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter first name"
+                    placeholder="Prénom"
                     placeholderTextColor="#a19595"
+                    value={firstname}
+                    onChangeText={onChangeFirstname}
                 />
             </View>
 
             <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Last name</Text>
+                <Text style={styles.inputLabel}>Nom</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter last name"
+                    placeholder="Nom"
                     placeholderTextColor="#a19595"
+                    value={lastname}
+                    onChangeText={onChangeLastname}
                 />
             </View>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Birth date</Text>
+                <Text style={styles.inputLabel}>Date de Naissance</Text>
                 <TouchableOpacity onPress={toggleDatePicker}>
                     <TextInput
                         style={styles.input}
-                        placeholder="Enter birth date"
+                        placeholder="Date de Naissance"
                         placeholderTextColor="#a19595"
                         value={date.toLocaleDateString()}
                         editable={false}
@@ -69,25 +102,30 @@ const RegisterScreen = ({navigation}) => {
                 <Text style={styles.inputLabel}>Email</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter email"
+                    placeholder="Email"
                     placeholderTextColor="#a19595"
+                    value={email}
+                    onChangeText={onChangeEmail}
                 />
             </View>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Password</Text>
+                <Text style={styles.inputLabel}>Mot de passe</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter password"
+                    placeholder="Mot de passe"
                     placeholderTextColor="#a19595"
+                    secureTextEntry
+                    value={password}
+                    onChangeText={onChangePassword}
                 />
             </View>
 
-            <TouchableOpacity style={styles.loginButton}>
-                <Text style={styles.loginButtonText}>Sign up</Text>
+            <TouchableOpacity style={styles.loginButton} onPress={registerUser}>
+                <Text style={styles.loginButtonText}>S'inscrire</Text>
             </TouchableOpacity>
         </ScrollView>
     );
-}
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -96,7 +134,6 @@ const styles = StyleSheet.create({
         padding: 20,
         paddingBottom: 100,
     },
-
     title: {
         color: '#264653',
         fontSize: 28,
@@ -104,7 +141,6 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         textAlign: 'center',
     },
-
     inputContainer: {
         marginBottom: 20,
     },
@@ -123,23 +159,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#264653',
     },
-    inputFocused: {
-        borderColor: '#E9C46A',
-        borderWidth: 2,
-    },
     loginButton: {
         backgroundColor: '#2A9D8F',
         padding: 15,
         borderRadius: 8,
         marginTop: 20,
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
     },
     loginButtonText: {
         color: '#FFFFFF',

@@ -2,23 +2,48 @@ import {StyleSheet, Text, View, TouchableOpacity, TextInput} from 'react-native'
 import {React, useState} from 'react';
 
 const LoginScreen = ({navigation}) => {
-    const stackRegister = () => {
-        navigation.navigate('Register', {});
-    };
     const [email, onChangeEmail] = useState('');
     const [password, onChangePassword] = useState('');
-    console.log(email, password);
+
+    const loginUser = async () => {
+        try {
+            const response = await fetch('http://localhost:8000/api/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                }),
+            });
+
+            const data = await response.json();
+            if (response.ok) {
+                alert(data.message);
+                console.log(data.user);
+                navigation.navigate('Home');
+            } else {
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error(error);
+            alert('Login failed');
+        }
+    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Sign in</Text>
+            <Text style={styles.title}>Se connecter</Text>
 
             <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>Email</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter Email"
+                    placeholder="Email"
                     placeholderTextColor="#a19595"
+                    value={email}
+                    onChangeText={onChangeEmail}
                 />
             </View>
 
@@ -26,25 +51,26 @@ const LoginScreen = ({navigation}) => {
                 <Text style={styles.inputLabel}>Mot de passe</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter password"
+                    placeholder="Mot de passe"
                     placeholderTextColor="#a19595"
                     secureTextEntry
+                    value={password}
+                    onChangeText={onChangePassword}
                 />
             </View>
 
-            <TouchableOpacity style={styles.loginButton}>
-                <Text style={styles.loginButtonText}>Log in</Text>
+            <TouchableOpacity style={styles.loginButton} onPress={loginUser}>
+                <Text style={styles.loginButtonText}>Se connecter</Text>
             </TouchableOpacity>
 
             <TouchableOpacity>
-                <Text style={styles.register} onPress={stackRegister}>
-                    No account yet ? Sign up there
+                <Text style={styles.register} onPress={() => navigation.navigate('Register')}>
+                    Pas de compte ? S'inscrire ici !
                 </Text>
             </TouchableOpacity>
         </View>
     );
-}
-
+};
 
 const styles = StyleSheet.create({
     container: {
@@ -52,7 +78,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#F8F9FA',
         padding: 20,
     },
-
     title: {
         color: '#264653',
         fontSize: 28,
@@ -60,7 +85,6 @@ const styles = StyleSheet.create({
         marginBottom: 30,
         textAlign: 'center',
     },
-
     inputContainer: {
         marginBottom: 20,
     },
@@ -79,24 +103,11 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#264653',
     },
-    inputFocused: {
-        borderColor: '#E9C46A',
-        borderWidth: 2,
-    },
     loginButton: {
         backgroundColor: '#2A9D8F',
         padding: 15,
         borderRadius: 8,
         marginTop: 20,
-        // Shadow
-        shadowColor: "#000",
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
     },
     loginButtonText: {
         color: '#FFFFFF',
@@ -104,14 +115,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         textAlign: 'center',
     },
-
-
     register: {
         color: '#F4A261',
         textAlign: 'center',
         marginTop: 15,
         fontSize: 14,
-    }
+    },
 });
 
 export default LoginScreen;
