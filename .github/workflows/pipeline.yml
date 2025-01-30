@@ -45,9 +45,12 @@ jobs:
     - name: Setup PHP
       uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
       with:
-        php-version: '8.0'
+        php-version: '8.4.3'
     - name: Install dependencies
       run: composer install
+      working-directory: back-symfony
+    - name : create database
+      run: php bin/console doctrine:database:create --if-not-exists
       working-directory: back-symfony
     - name: Run tests
       run: php bin/phpunit
