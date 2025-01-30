@@ -4,6 +4,7 @@ import HomeScreen from "../screens/HomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import RegisterScreen from "../screens/RegisterScreen";
 import MatchScreen from "../screens/MatchScreen";
+import CreditScreen from "../screens/CreditScreen";
 // import TabNavigator from "./TabNavigator";
 
 
@@ -38,6 +39,10 @@ const AppNavigator = () => {
             <Stack.Screen
                 name="Match"
                 component={MatchScreen}
+            />
+            <Stack.Screen
+                name="Credit"
+                component={CreditScreen}
             />
             {/*<Stack.Screen*/}
             {/*    name="TabNavigator"*/}

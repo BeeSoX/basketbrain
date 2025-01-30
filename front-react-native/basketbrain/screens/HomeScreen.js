@@ -1,6 +1,7 @@
 import {StyleSheet, Text, View, TouchableOpacity, FlatList} from 'react-native';
 import {React, useEffect, useState} from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import BottomMenu from "../component/BottomMenu";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 
@@ -67,6 +68,7 @@ const HomeScreen = ({navigation}) => {
                           contentContainerStyle={{ paddingBottom: 100 }}
                           showsVerticalScrollIndicator={false}/>
             </View>
+            <BottomMenu />
         </View>
     );
 }
