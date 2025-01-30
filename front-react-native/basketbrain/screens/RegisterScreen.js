@@ -1,8 +1,8 @@
-import {StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, ScrollView} from 'react-native';
-import {React, useState} from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, ScrollView } from 'react-native';
+import { React, useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const RegisterScreen = ({navigation}) => {
+const RegisterScreen = ({ navigation }) => {
     const [date, setDate] = useState(new Date());
     const [showPicker, setShowPicker] = useState(false);
     const [email, onChangeEmail] = useState('');
@@ -22,7 +22,7 @@ const RegisterScreen = ({navigation}) => {
 
     const registerUser = async () => {
         try {
-            const response = await fetch('http://192.168.247.1:8000/api/user/register', {
+            const response = await fetch('http://192.168.1.15:8000/api/user/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -44,7 +44,7 @@ const RegisterScreen = ({navigation}) => {
                 alert(data.message);
             }
         } catch (error) {
-            console.error(error);
+            console.log(error);
             alert('Erreur lors de la connexion');
         }
     };
@@ -82,7 +82,7 @@ const RegisterScreen = ({navigation}) => {
                         placeholder="Date de Naissance"
                         placeholderTextColor="#a19595"
                         value={date.toLocaleDateString()}
-                        editable={false}
+                        editable={true}
                     />
                 </TouchableOpacity>
 

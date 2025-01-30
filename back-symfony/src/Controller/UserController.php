@@ -39,24 +39,24 @@ class UserController extends AbstractController
     public function register(Request $request): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-        var_dump($data);
+        // var_dump($data);
 
         if (!isset($data['email'], $data['password'])) {
             return new JsonResponse(['message' => 'Email et mot de passe requis'], JsonResponse::HTTP_BAD_REQUEST);
         }
 
-        $user = new User();
-        $user->setUserEmail($data['email']);
-        $user->setUserPassword($this->passwordHasher->hashPassword($user, $data['password']));
-        $user->setUserFirstname($data['firstname'] ?? '');
-        $user->setUserLastname($data['lastname'] ?? '');
-        $user->setUserBirthdate(new \DateTime($data['birthdate'] ?? '2000-01-01'));
-        $user->setUserCredit(0.0); // Par défaut
+        // $user = new User();
+        // $user->setUserEmail($data['email']);
+        // $user->setUserPassword($this->passwordHasher->hashPassword($user, $data['password']));
+        // $user->setUserFirstname($data['firstname'] ?? '');
+        // $user->setUserLastname($data['lastname'] ?? '');
+        // $user->setUserBirthdate(new \DateTime($data['birthdate'] ?? '2000-01-01'));
+        // $user->setUserCredit(0.0); // Par défaut
 
-        $this->entityManager->persist($user);
-        $this->entityManager->flush();
+        // $this->entityManager->persist($user);
+        // $this->entityManager->flush();
 
-        return new JsonResponse(['message' => 'Utilisateur créé avec succès'], JsonResponse::HTTP_CREATED);
+        return new JsonResponse(['message' => json_encode($data)], JsonResponse::HTTP_CREATED);
     }
 
     #[Route('/login', name: 'login', methods: ['POST'])]
