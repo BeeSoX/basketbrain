@@ -42,7 +42,6 @@ console.log(data);
                           renderItem={({item}) =>
                 <View style={styles.bodyMatch}>
                     <Text style={styles.matchDate}>{item.date}</Text>
-                    <Text style={styles.matchDate}>{item.id}</Text>
                     <View style={styles.matchContent}>
                         <Text style={styles.matchText}>
                             {item.home_team.name} VS. {item.visitor_team.name}
@@ -53,7 +52,9 @@ console.log(data);
                                 game: {
                                     id: item.id, // id du match
                                     home_team: item.home_team, // objet equipe domicile
-                                    visitor_team: item.visitor_team
+                                    visitor_team: item.visitor_team,
+                                    home_team_score: 0,
+                                    visitor_team_score: 0,
                                 } // objet equipe visiteur
                             })}
                         >
