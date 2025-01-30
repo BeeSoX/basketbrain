@@ -1,9 +1,10 @@
 import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {React, useEffect, useState} from 'react';
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 const MatchScreen = ({route}) => {
     let win;
-    let amount = 100; // credit de test
+    const [amount, setAmount] = useState(0);
     const {game} = route.params;
     const [data, setData] = useState([]);
     const [homeTeamWins, setHomeTeamWins] = useState(0);
@@ -12,6 +13,9 @@ const MatchScreen = ({route}) => {
     const [visitorTeamLooses, setVisitorTeamLooses] = useState(0);
     const [homeTeamScore, setHomeTeamScore] = useState(0);
     const [visitorTeamScore, setVisitorTeamScore] = useState(0);
+    const [amountHomeTeam, onChangeAmountHomeTeam] = useState(0);
+    const [amountVisitorTeam, onChangeAmountVisitorTeam] = useState(0);
+    const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
     const stats = async () => {
         try {
@@ -110,9 +114,14 @@ const MatchScreen = ({route}) => {
     let oddVisitorTeam = visitorTeamWins === 0 ? 1/(1/(visitorTeamLooses)) : 1/(visitorTeamWins/(visitorTeamWins+visitorTeamLooses));
     oddVisitorTeam = oddVisitorTeam.toFixed(2);
 
-    const simulationGame = async () => {
+    const simulationGame = async (amountHome, amountVisitor) => {
+        console.log(amountHome, amountVisitor);
+        let finalHomeScore = 0;
+        let finalVisitorScore = 0;
         setVisitorTeamScore(0);
         setHomeTeamScore(0);
+        onChangeAmountHomeTeam(0);
+        onChangeAmountVisitorTeam(0);
         for (let i = 0; i <= 100; i++) {
             await new Promise(resolve => setTimeout(resolve, 50));
             let randomPoint = Math.floor(Math.random() * 3) + 1;
@@ -120,30 +129,37 @@ const MatchScreen = ({route}) => {
             switch (randomChoose) {
                 case 0:
                     // 0 pour la home_team
+                    finalHomeScore += randomPoint;
                     setHomeTeamScore(prevScore => prevScore + randomPoint);
                     break;
                 case 1:
                     // 1 pour la visitor team
+                    finalVisitorScore += randomPoint
                     setVisitorTeamScore(prevScore => prevScore + randomPoint);
                     break;
             }
         }
-        if (homeTeamScore > visitorTeamScore) {
-            win = game.home_team.name;
-            amount = amount * oddHomeTeam;
-        } else {
-            win = game.visitor_team.name;
-            amount = amount * oddVisitorTeam;
-        }
-        console.log('winner', win, 'amount won : ', amount);
+        setTimeout(() => {
+            if (finalHomeScore > finalVisitorScore) {
+                win = game.home_team.name;
+                setAmount(prevAmount => prevAmount + amountHome * oddHomeTeam);
+            } else {
+                win = game.visitor_team.name;
+                setAmount(prevAmount => prevAmount + amountVisitor * oddVisitorTeam);
+            }
+
+        }, 100);
     }
 
     return (
         <ScrollView style={styles.container}>
             <Text style={styles.title}>{game.home_team.name} VS. {game.visitor_team.name}</Text>
-            <View style={styles.score}>
-                <Text style={styles.textScore}>Score</Text>
-                <Text style={[styles.secondaryButton, styles.textSecondaryButton]}>{homeTeamScore} - {visitorTeamScore}</Text>
+            <View style={styles.headerBody}>
+                <TouchableOpacity style={styles.credit}><FontAwesome6 name="coins" size={15} color="black" /><Text>{amount}</Text></TouchableOpacity>
+                <View style={styles.score}>
+                    <Text style={styles.textScore}>Score</Text>
+                    <Text style={[styles.secondaryButton, styles.textSecondaryButton]}>{homeTeamScore} - {visitorTeamScore}</Text>
+                </View>
             </View>
             <View style={styles.teamBlock}>
                 <View style={styles.header}>
@@ -161,6 +177,9 @@ const MatchScreen = ({route}) => {
                     style={styles.input}
                     placeholder="Enter your amount"
                     placeholderTextColor="#a19595"
+                    value={amountHomeTeam}
+                    onChangeText={onChangeAmountHomeTeam}
+                    keyboardType='numeric'
                 />
             </View>
 
@@ -180,13 +199,24 @@ const MatchScreen = ({route}) => {
                     style={styles.input}
                     placeholder="Enter your amount"
                     placeholderTextColor="#a19595"
+                    value={amountVisitorTeam}
+                    onChangeText={onChangeAmountVisitorTeam}
+                    keyboardType='numeric'
                 />
             </View>
             <TouchableOpacity
-                style={styles.secondaryButton} onPress={() => simulationGame()}
+                style={[styles.secondaryButtonLauncher, isButtonDisabled && { opacity: 0.5 }]}
+                onPress={() => {
+                    if (!isButtonDisabled) {
+                        setIsButtonDisabled(true);
+                        simulationGame(amountHomeTeam, amountVisitorTeam);
+                    }
+                }}
+                disabled={isButtonDisabled}
             >
                 <Text style={styles.textSecondaryButton}>Launch bet</Text>
             </TouchableOpacity>
+
         </ScrollView>
     );
 }
@@ -214,6 +244,12 @@ const styles = StyleSheet.create({
         padding: 15,
         fontSize: 16,
         color: '#264653',
+    },
+    headerBody :{
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 5,
     },
     teamBlock: {
         backgroundColor: '#FFFFFF',
@@ -255,6 +291,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 20,
     },
+    secondaryButtonLauncher: {
+        backgroundColor: '#F4A261',
+        padding: 15,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: '#F4A261',
+        alignItems: 'center',
+        marginTop: 20,
+        marginBottom: 50,
+    },
     textSecondaryButton: {
         color: '#264653',
         fontSize: 16,
@@ -277,6 +323,17 @@ const styles = StyleSheet.create({
         marginRight: 15,
         borderBottomWidth: 2,
         borderBottomColor: '#F4A261',
+    },
+    credit: {
+        flexDirection: 'row',
+        gap: 10,
+        backgroundColor: '#F4A261',
+        padding: 15,
+        borderRadius: 25,
+        borderWidth: 1,
+        borderColor: '#F4A261',
+        alignItems: 'center',
+        alignSelf: 'flex-start',
     }
 });
 
