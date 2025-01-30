@@ -22,7 +22,7 @@ const RegisterScreen = ({navigation}) => {
 
     const registerUser = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/user/register', {
+            const response = await fetch('http://192.168.247.1:8000/api/user/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

@@ -30,7 +30,6 @@ const HomeScreen = ({navigation}) => {
     useEffect(() => {
         getMatches()
     }, []);
-console.log(data);
     return (
         <View style={styles.container}>
             <View style={styles.header}>
