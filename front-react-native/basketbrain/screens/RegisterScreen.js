@@ -32,20 +32,20 @@ const RegisterScreen = ({navigation}) => {
                     password: password,
                     firstname: firstname,
                     lastname: lastname,
-                    birthdate: date.toISOString().split('T')[0], // format the date correctly
+                    birthdate: date.toISOString().split('T')[0],
                 }),
             });
 
             const data = await response.json();
             if (response.ok) {
                 alert(data.message);
-                navigation.navigate('Login');
+                navigation.navigate('Connexion');
             } else {
                 alert(data.message);
             }
         } catch (error) {
             console.error(error);
-            alert('Error during registration');
+            alert('Erreur lors de la connexion');
         }
     };
 
@@ -54,10 +54,10 @@ const RegisterScreen = ({navigation}) => {
             <Text style={styles.title}>Sign up</Text>
 
             <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>First name</Text>
+                <Text style={styles.inputLabel}>Prénom</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter first name"
+                    placeholder="Prénom"
                     placeholderTextColor="#a19595"
                     value={firstname}
                     onChangeText={onChangeFirstname}
@@ -65,21 +65,21 @@ const RegisterScreen = ({navigation}) => {
             </View>
 
             <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Last name</Text>
+                <Text style={styles.inputLabel}>Nom</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter last name"
+                    placeholder="Nom"
                     placeholderTextColor="#a19595"
                     value={lastname}
                     onChangeText={onChangeLastname}
                 />
             </View>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Birth date</Text>
+                <Text style={styles.inputLabel}>Date de Naissance</Text>
                 <TouchableOpacity onPress={toggleDatePicker}>
                     <TextInput
                         style={styles.input}
-                        placeholder="Enter birth date"
+                        placeholder="Date de Naissance"
                         placeholderTextColor="#a19595"
                         value={date.toLocaleDateString()}
                         editable={false}
@@ -102,17 +102,17 @@ const RegisterScreen = ({navigation}) => {
                 <Text style={styles.inputLabel}>Email</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter email"
+                    placeholder="Email"
                     placeholderTextColor="#a19595"
                     value={email}
                     onChangeText={onChangeEmail}
                 />
             </View>
             <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Password</Text>
+                <Text style={styles.inputLabel}>Mot de passe</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter password"
+                    placeholder="Mot de passe"
                     placeholderTextColor="#a19595"
                     secureTextEntry
                     value={password}
@@ -121,7 +121,7 @@ const RegisterScreen = ({navigation}) => {
             </View>
 
             <TouchableOpacity style={styles.loginButton} onPress={registerUser}>
-                <Text style={styles.loginButtonText}>Sign up</Text>
+                <Text style={styles.loginButtonText}>S'inscrire</Text>
             </TouchableOpacity>
         </ScrollView>
     );

@@ -34,13 +34,13 @@ const LoginScreen = ({navigation}) => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Sign in</Text>
+            <Text style={styles.title}>Se connecter</Text>
 
             <View style={styles.inputContainer}>
                 <Text style={styles.inputLabel}>Email</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter Email"
+                    placeholder="Email"
                     placeholderTextColor="#a19595"
                     value={email}
                     onChangeText={onChangeEmail}
@@ -48,10 +48,10 @@ const LoginScreen = ({navigation}) => {
             </View>
 
             <View style={styles.inputContainer}>
-                <Text style={styles.inputLabel}>Password</Text>
+                <Text style={styles.inputLabel}>Mot de passe</Text>
                 <TextInput
                     style={styles.input}
-                    placeholder="Enter password"
+                    placeholder="Mot de passe"
                     placeholderTextColor="#a19595"
                     secureTextEntry
                     value={password}
@@ -60,12 +60,12 @@ const LoginScreen = ({navigation}) => {
             </View>
 
             <TouchableOpacity style={styles.loginButton} onPress={loginUser}>
-                <Text style={styles.loginButtonText}>Log in</Text>
+                <Text style={styles.loginButtonText}>Se connecter</Text>
             </TouchableOpacity>
 
             <TouchableOpacity>
                 <Text style={styles.register} onPress={() => navigation.navigate('Register')}>
-                    No account yet? Sign up there
+                    Pas de compte ? S'inscrire ici !
                 </Text>
             </TouchableOpacity>
         </View>
