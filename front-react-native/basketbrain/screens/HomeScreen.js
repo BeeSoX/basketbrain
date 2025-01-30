@@ -1,6 +1,7 @@
 import {StyleSheet, Text, View, TouchableOpacity, FlatList} from 'react-native';
 import {React, useEffect, useState} from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 
 const HomeScreen = ({navigation}) => {
@@ -29,10 +30,10 @@ const HomeScreen = ({navigation}) => {
     useEffect(() => {
         getMatches()
     }, []);
-console.log(data);
     return (
         <View style={styles.container}>
             <View style={styles.header}>
+                <TouchableOpacity style={styles.credit}><FontAwesome6 name="coins" size={15} color="black" /><Text>0</Text></TouchableOpacity>
                 <Text style={[styles.title, styles.text]}>BasketBrain</Text>
                 <TouchableOpacity style={styles.primaryButton} onPress={stackLogin}><FontAwesome name="user" size={24} color="white" /></TouchableOpacity>
             </View>
@@ -82,14 +83,12 @@ const styles = StyleSheet.create({
     },
     header: {
         flexDirection: 'row',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         alignItems: 'center',
         marginBottom: 20,
         position: 'relative',
     },
     primaryButton: {
-        position: 'absolute',
-        right: 0,
         backgroundColor: '#2A9D8F',
         padding: 15,
         borderRadius: 30,
@@ -159,6 +158,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         gap: 10,
+    },
+    credit: {
+        flexDirection: 'row',
+        gap: 10,
+        backgroundColor: '#F4A261',
+        padding: 15,
+        borderRadius: 25,
+        borderWidth: 1,
+        borderColor: '#F4A261',
+        alignItems: 'center',
     }
 });
 

@@ -22,7 +22,7 @@ const RegisterScreen = ({navigation}) => {
 
     const registerUser = async () => {
         try {
-            const response = await fetch('http://localhost:8000/api/user/register', {
+            const response = await fetch('http://192.168.247.1:8000/api/user/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -163,7 +163,15 @@ const styles = StyleSheet.create({
         backgroundColor: '#2A9D8F',
         padding: 15,
         borderRadius: 8,
-        marginTop: 20,
+        marginBottom: 50,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
     },
     loginButtonText: {
         color: '#FFFFFF',
