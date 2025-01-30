@@ -72,7 +72,6 @@ jobs:
         run: |
           php bin/console doctrine:database:create --env=test --if-not-exists
           php bin/console doctrine:schema:update --force --env=test
-          php bin/console doctrine:fixtures:load --env=test --no-interaction
         working-directory: back-symfony
         env:
           DATABASE_URL: mysql://root:password@127.0.0.1:3306/symfony_test
