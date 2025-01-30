@@ -2,9 +2,11 @@
 
 namespace App\Entity;
 
+use App\Repository\BetRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: BetRepository::class)]
 class Bet
 {
     #[ORM\Id]
@@ -107,5 +109,10 @@ class Bet
         $this->betOdd = $betOdd;
 
         return $this;
+    }
+
+    public function isBetWin(): ?bool
+    {
+        return $this->betWin;
     }
 }
