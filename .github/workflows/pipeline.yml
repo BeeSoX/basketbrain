@@ -49,9 +49,8 @@ jobs:
     - name: Install dependencies
       run: composer install
       working-directory: back-symfony
-    - name: server start
-      run: symfony console server:start
-      working-directory: back-symfony
+    - name: serve symfony
+      run: symfony server:start --no-tls --dir=back-symfony/public
     - name: Run tests
       run: php bin/phpunit
       working-directory: back-symfony
