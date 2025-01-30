@@ -107,10 +107,3 @@ jobs:
         run: |
           mkdir -p build/test-results
           php bin/phpunit --coverage-clover build/test-results/coverage.xml --log-junit build/test-results/junit.xml
-
-      - name: Upload test results
-        uses: actions/upload-artifact@v3
-        if: always()
-        with:
-          name: test-results
-          path: build/test-results
