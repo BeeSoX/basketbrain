@@ -50,7 +50,7 @@ jobs:
       run: composer install
       working-directory: back-symfony
     - name: server start
-      run: php bin/console server:start
+      run: symfony console server:start
       working-directory: back-symfony
     - name: Run tests
       run: php bin/phpunit
