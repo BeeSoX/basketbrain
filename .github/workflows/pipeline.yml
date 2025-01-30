@@ -52,9 +52,9 @@ jobs:
     - name: Install Debug Bundle
       run: composer require symfony/debug-bundle --dev
       working-directory: back-symfony
-    - name: Start Symfony server
-      run: php bin/console server:start
-      working-directory: back-symfony
+    # - name: Start Symfony server
+    #   run: php bin/console server:start
+    #   working-directory: back-symfony
     - name: Run tests
       run: php bin/phpunit
       working-directory: back-symfony
