@@ -1,8 +1,9 @@
-import {StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, ScrollView} from 'react-native';
-import {React, useState} from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, ScrollView } from 'react-native';
+import { React, useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Config from 'react-native-config'
 
-const RegisterScreen = ({navigation}) => {
+const RegisterScreen = ({ navigation }) => {
     const [date, setDate] = useState(new Date());
     const [showPicker, setShowPicker] = useState(false);
     const [email, onChangeEmail] = useState('');
@@ -32,7 +33,7 @@ const RegisterScreen = ({navigation}) => {
         console.log("Données envoyées:", JSON.stringify(requestBody));
 
         try {
-            const response = await fetch('http://192.168.1.41:8000/api/user/register', {
+            const response = await fetch(`${Config.API_URL}/user/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8',
