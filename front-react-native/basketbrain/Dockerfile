@@ -7,6 +7,7 @@ RUN npm install -g expo-cli
 
 # Copie des fichiers de dépendances
 COPY package*.json ./
+RUN npm update
 RUN npm install
 
 COPY . .
