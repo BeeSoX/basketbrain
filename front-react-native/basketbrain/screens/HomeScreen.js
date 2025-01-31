@@ -7,11 +7,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const HomeScreen = ({navigation}) => {
+    const [user, setUser] = useState(null);
     const connected = async () => {
         const userData = await AsyncStorage.getItem('userData');
-        if(userData) {
-            // L'utilisateur est connecté
-            console.log("User connecté", userData);
+        if (userData) {
+            const parsedUser = JSON.parse(userData);
+            setUser(parsedUser);
+            console.log(parsedUser.firstname);
+            console.log("User connecté", parsedUser);
         }
     }
     useEffect(() => {
@@ -46,36 +49,41 @@ const HomeScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={styles.credit}><FontAwesome6 name="coins" size={15} color="black" /><Text>0</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.credit}><FontAwesome6 name="coins" size={15} color="black" />{user && (<Text>{user.credit}</Text>)}</TouchableOpacity>
                 <Text style={[styles.title, styles.text]}>BasketBrain</Text>
                 <TouchableOpacity style={styles.primaryButton} onPress={stackLogin}><FontAwesome name="user" size={24} color="white" /></TouchableOpacity>
             </View>
             <View style={styles.body}>
                 <Text style={styles.bodyTitle}>Upcoming matches</Text>
+                {user && (
+                    <Text style={styles.textSecondaryButton}>
+                        Bonjour {user.firstname} {user.lastname} 👋
+                    </Text>
+                )}
                 <FlatList data={data} scrollEnabled={true}
                           renderItem={({item}) =>
-                <View style={styles.bodyMatch}>
-                    <Text style={styles.matchDate}>{item.date}</Text>
-                    <View style={styles.matchContent}>
-                        <Text style={styles.matchText}>
-                            {item.home_team.name} VS. {item.visitor_team.name}
-                    </Text>
-                        <TouchableOpacity
-                            style={styles.secondaryButton}
-                            onPress={() => navigation.navigate('Match', {
-                                game: {
-                                    id: item.id, // id du match
-                                    home_team: item.home_team, // objet equipe domicile
-                                    visitor_team: item.visitor_team,
-                                    home_team_score: 0,
-                                    visitor_team_score: 0,
-                                } // objet equipe visiteur
-                            })}
-                        >
-                            <Text style={styles.textSecondaryButton}>Bet</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View>}
+                              <View style={styles.bodyMatch}>
+                                  <Text style={styles.matchDate}>{item.date}</Text>
+                                  <View style={styles.matchContent}>
+                                      <Text style={styles.matchText}>
+                                          {item.home_team.name} VS. {item.visitor_team.name}
+                                      </Text>
+                                      <TouchableOpacity
+                                          style={styles.secondaryButton}
+                                          onPress={() => navigation.navigate('Match', {
+                                              game: {
+                                                  id: item.id, // id du match
+                                                  home_team: item.home_team, // objet equipe domicile
+                                                  visitor_team: item.visitor_team,
+                                                  home_team_score: 0,
+                                                  visitor_team_score: 0,
+                                              } // objet equipe visiteur
+                                          })}
+                                      >
+                                          <Text style={styles.textSecondaryButton}>Bet</Text>
+                                      </TouchableOpacity>
+                                  </View>
+                              </View>}
                           keyExtractor={(item) => item.id}
                           contentContainerStyle={{ paddingBottom: 100 }}
                           showsVerticalScrollIndicator={false}/>
