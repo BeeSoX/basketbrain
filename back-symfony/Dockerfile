@@ -15,7 +15,7 @@ WORKDIR /var/www/html
 # Installation des dépendances Symfony
 COPY composer.* ./
 RUN composer update \
-    composer install --prefer-dist --no-dev --no-scripts --no-progress --no-interaction
+    composer install --prefer-dist --no-scripts --no-progress --no-interaction
 
 COPY . .
 
