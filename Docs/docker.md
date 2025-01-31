@@ -66,3 +66,7 @@ Pour construire le conteneur et démarrer les services.
 	- Backend : http://localhost:8090
 	- phpMyAdmin : http://localhost:8080
 	- Frontend : http://localhost:8081
+## Conclusion :
+Actuellement, la conteneurisation n'est pas opérationnelle : 
+- la BDD et le BackEnd communiquent
+- le FrontEnd s'affiche mais ne parvient pas à communiquer avec le BackEnd (problème de CORS...)
