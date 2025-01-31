@@ -11,14 +11,14 @@ class BetControllerTest extends WebTestCase
     {
 
         $client = static::createClient();
-        $client->request('GET', '/bets');
+        $client->request('GET', '/api/bet/all');
         $this->assertResponseIsSuccessful();
     }
 
     public function testShow(): void
     {
         $client = static::createClient();
-        $client->request('GET', '/bets/1');
+        $client->request('GET', '/api/bet/user/1');
         $this->assertResponseIsSuccessful();
     }
 
