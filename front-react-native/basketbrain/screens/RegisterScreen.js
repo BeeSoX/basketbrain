@@ -32,7 +32,7 @@ const RegisterScreen = ({navigation}) => {
         console.log("Données envoyées:", JSON.stringify(requestBody));
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/user/register', {
+            const response = await fetch('http://192.168.1.41:8000/api/user/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json; charset=UTF-8',
@@ -42,22 +42,22 @@ const RegisterScreen = ({navigation}) => {
 
             console.log("Statut de la réponse:", response.status);
 
-            const textData = await response.text(); // Récupérer la réponse brute
+            const textData = await response.text();
             console.log("Réponse brute de l'API:", textData);
 
             let data;
             try {
-                data = JSON.parse(textData); // Essayer de parser en JSON
+                data = JSON.parse(textData);
                 console.log("Réponse JSON de l'API:", data);
             } catch (e) {
                 console.error("Erreur de parsing JSON:", e);
             }
 
             if (response.ok) {
-                alert(data.message || "Inscription réussie !");
+                alert(data ? data.message : "Inscription réussie !");
                 navigation.navigate('Login');
             } else {
-                alert("Erreur d'inscription: " + (data?.message || "Problème inconnu"));
+                alert("Erreur d'inscription: " + (data ? data.message : "Problème inconnu"));
             }
         } catch (error) {
             console.error("Erreur lors de la requête:", error);
