@@ -10,30 +10,62 @@ permissions:
   contents: read
 
 jobs:
-  # symfony-lint:
+
+  # react-native-lint:
   #   runs-on: ubuntu-latest
   #   steps:
   #   - uses: actions/checkout@v4
-  #   - name: Setup PHP
-  #     uses: shivammathur/setup-php@2cb9b829437ee246e9b3cac53555a39208ca6d28
+  #   - name: Setup Node.js
+  #     uses: actions/setup-node@v3
   #     with:
-  #       php-version: '8.0'
-  #   - name: Install PHP CodeSniffer
-  #     run: composer global require "squizlabs/php_codesniffer=*"
-  #   - name: Run PHP CodeSniffer
-  #     run: ~/.composer/vendor/bin/phpcs --standard=PSR12 back-symfony/src
+  #       node-version: '18'
+  #   - name: Install ESLint
+  #     run: npm install eslint
+  #     working-directory: front-react-native/basketbrain
+  #   - name: Run ESLint
+  #     run: npx eslint
+  #     working-directory: front-react-native/basketbrain
 
-  react-native-lint:
+  symfony-test:
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: password
+          MYSQL_DATABASE: symfony_test
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
-    - name: Install ESLint
-      run: npm install eslint
-      working-directory: front-react-native/basketbrain
-    - name: Run ESLint
-      run: npx eslint
-      working-directory: front-react-native/basketbrain
+      - uses: actions/checkout@v4
+      
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: pdo_mysql
+      
+      - name: Install dependencies
+        run: composer install
+        working-directory: back-symfony
+        
+      - name: Install Debug Bundle
+        run: composer require symfony/debug-bundle --dev
+        working-directory: back-symfony
+        
+      - name: Setup Database
+        run: |
+          php bin/console doctrine:database:create --env=test --if-not-exists
+          php bin/console doctrine:schema:update --force --env=test
+        working-directory: back-symfony
+        env:
+          DATABASE_URL: mysql://root:password@127.0.0.1:3306/symfony_test
+      
+      - name: Run tests
+        run: php bin/phpunit
+        working-directory: back-symfony
+        env:
+          DATABASE_URL: mysql://root:password@127.0.0.1:3306/symfony_test
