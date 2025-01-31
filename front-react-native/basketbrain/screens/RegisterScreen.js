@@ -1,8 +1,8 @@
-import {StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, ScrollView} from 'react-native';
-import {React, useState} from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Platform, ScrollView } from 'react-native';
+import { React, useState } from 'react';
 import DateTimePicker from '@react-native-community/datetimepicker';
 
-const RegisterScreen = ({navigation}) => {
+const RegisterScreen = ({ navigation }) => {
     const [date, setDate] = useState(new Date());
     const [showPicker, setShowPicker] = useState(false);
     const [email, onChangeEmail] = useState('');
