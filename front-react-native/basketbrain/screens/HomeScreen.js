@@ -3,10 +3,21 @@ import {React, useEffect, useState} from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import BottomMenu from "../component/BottomMenu";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 const HomeScreen = ({navigation}) => {
+    const connected = async () => {
+        const userData = await AsyncStorage.getItem('userData');
+        if(userData) {
+            // L'utilisateur est connecté
+            console.log("User connecté", userData);
+        }
+    }
+    useEffect(() => {
+        connected();
+    }, []);
+
     const stackLogin = () => {
         navigation.navigate('Login', {});
     };

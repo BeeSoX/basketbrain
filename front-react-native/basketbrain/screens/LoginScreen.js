@@ -1,5 +1,6 @@
 import {StyleSheet, Text, View, TouchableOpacity, TextInput} from 'react-native';
 import {React, useState} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginScreen = ({navigation}) => {
     const [email, onChangeEmail] = useState('');
@@ -7,6 +8,7 @@ const LoginScreen = ({navigation}) => {
 
     const loginUser = async () => {
         try {
+            console.log(email, password);
             const response = await fetch('http://192.168.1.41:8000/api/user/login', {
                 method: 'POST',
                 headers: {
@@ -20,8 +22,10 @@ const LoginScreen = ({navigation}) => {
 
             const data = await response.json();
             if (response.ok) {
+                if (data.user) {
+                    await AsyncStorage.setItem('userData', JSON.stringify(data.user));
+                }
                 alert(data.message);
-                console.log(data.user);
                 navigation.navigate('Home');
             } else {
                 alert(data.message);
