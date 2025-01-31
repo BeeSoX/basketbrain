@@ -1,27 +1,92 @@
-
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import BottomMenu from '../component/BottomMenu';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const CreditScreen = ({ navigation }) => {
-    const [credit, setCredit] = useState(0);
     const [amount, setAmount] = useState('');
+    const [user, setUser] = useState(null);
+    const connected = async () => {
+        const userData = await AsyncStorage.getItem('userData');
+        if (userData) {
+            const parsedUser = JSON.parse(userData);
+            setUser(parsedUser);
+            console.log(parsedUser.firstname);
+            console.log("User connecté", parsedUser);
+        }
+    }
+    useEffect(() => {
+        connected();
+    }, []);
 
-    const addCredit = () => {
-        const newCredit = credit + parseInt(amount, 10);
-        setCredit(newCredit);
-        setAmount('');
+    const addCredit = async () => {
+        if (amount !== '') {
+            try {
+                const response = await fetch('http://192.168.1.41:8000/api/user/add/credit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: user.email,
+                        credit: amount,
+                    }),
+                });
+                const data = await response.json();
+                console.log(data);
+                if (data.user) {
+                    await AsyncStorage.setItem('userData', JSON.stringify(data.user));
+                    setUser(data.user);
+                    console.log(user);
+                }
+                alert(data.message);
+            } catch (error) {
+                console.error(error);
+                alert('Login failed');
+            }
+            setAmount('');
+        }
+
     };
+    const removeCredit = async () => {
+        if (amount !== '') {
+            try {
+                const response = await fetch('http://192.168.1.41:8000/api/user/remove/credit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        email: user.email,
+                        credit: amount,
+                    }),
+                });
+                const data = await response.json();
+                if (data.user) {
+                    await AsyncStorage.setItem('userData', JSON.stringify(data.user));
+                    setUser(data.user);
+                }
+                alert(data.message);
+            } catch (error) {
+                console.error(error);
+                alert('Login failed');
+            }
+            setAmount('');
+        }
 
-    const removeCredit = () => {
-        const newCredit = credit - parseInt(amount, 10);
-        setCredit(newCredit >= 0 ? newCredit : 0);
-        setAmount('');
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Crédits disponibles: {credit}</Text>
+            {user ? (
+                <Text style={styles.title}>
+                    Crédits disponibles: {user.credit}
+                </Text>
+            ) : (
+                <Text style={styles.textSecondaryButton}>
+                    Veuillez vous connecter !
+                </Text>
+            )}
             <TextInput
                 style={styles.input}
                 placeholder="Entrez un montant"

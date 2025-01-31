@@ -1,10 +1,10 @@
 import {ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import {React, useEffect, useState} from 'react';
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const MatchScreen = ({route}) => {
     let win;
-    const [amount, setAmount] = useState(100);
     const {game} = route.params;
     const [data, setData] = useState([]);
     const [homeTeamWins, setHomeTeamWins] = useState(0);
@@ -16,6 +16,22 @@ const MatchScreen = ({route}) => {
     const [amountHomeTeam, onChangeAmountHomeTeam] = useState(0);
     const [amountVisitorTeam, onChangeAmountVisitorTeam] = useState(0);
     const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+    const [user, setUser] = useState(null);
+    const connected = async () => {
+        const userData = await AsyncStorage.getItem('userData');
+        if (userData) {
+            const parsedUser = JSON.parse(userData);
+            setUser(parsedUser);
+        }
+    };
+
+    useEffect(() => {
+        connected();
+        if (user) {
+            setAmount(user.credit);
+        }
+    }, [user]);
+    const [amount, setAmount] = useState(user ? user.credit : 0);
 
     const stats = async () => {
         try {
@@ -139,22 +155,72 @@ const MatchScreen = ({route}) => {
                     break;
             }
         }
-        setTimeout(() => {
+        setTimeout(async () => {
             if (finalHomeScore > finalVisitorScore) {
                 win = game.home_team.name;
                 setAmount(prevAmount => prevAmount + amountHome * oddHomeTeam);
                 if (oddVisitorTeam !== 0) {
-                    if (amount - amountVisitor * (oddVisitorTeam *0.8) > 0) {
-                        setAmount(amount - amountVisitor * (oddVisitorTeam *0.8));
+                    if (amount - amountVisitor * (oddVisitorTeam * 0.8) > 0) {
+                        setAmount(amount - amountVisitor * (oddVisitorTeam * 0.8));
                     }
+                }
+                try {
+                    console.log(user.email, game.game_date, game.id, win, amountHome, oddHomeTeam);
+                    const response = await fetch('http://192.168.1.41:8000/api/bet/new', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email: user.email,
+                            betDate: game.game_date,
+                            betGame: game.id,
+                            betWin: win,
+                            betAmount: amountHome,
+                            betOdd: oddHomeTeam
+                        }),
+                    });
+                    const data = await response.json();
+                    if (data.user) {
+                        await AsyncStorage.setItem('userData', JSON.stringify(data.user));
+                        setUser(data.user);
+                    }
+                    alert(data.message);
+                } catch (e) {
+                    console.log(e);
                 }
             } else {
                 win = game.visitor_team.name;
                 setAmount(prevAmount => prevAmount + amountVisitor * oddVisitorTeam);
                 if (oddHomeTeam !== 0) {
-                    if (amount - amountHome * (oddHomeTeam *0.8) > 0) {
-                        setAmount(amount - amountHome * (oddHomeTeam *0.8));
+                    if (amount - amountHome * (oddHomeTeam * 0.8) > 0) {
+                        setAmount(amount - amountHome * (oddHomeTeam * 0.8));
                     }
+                }
+                try {
+                    console.log(user.email, game.game_date, game.id, win, amountVisitor, oddVisitorTeam);
+                    const response = await fetch('http://192.168.1.41:8000/api/bet/new', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email: user.email,
+                            betDate: game.game_date,
+                            betGame: game.id,
+                            betWin: win,
+                            betAmount: amountVisitor,
+                            betOdd: oddVisitorTeam
+                        }),
+                    });
+                    const data = await response.json();
+                    if (data.user) {
+                        await AsyncStorage.setItem('userData', JSON.stringify(data.user));
+                        setUser(data.user);
+                    }
+                    alert(data.message);
+                } catch (e) {
+                    console.log(e);
                 }
             }
 
@@ -165,7 +231,7 @@ const MatchScreen = ({route}) => {
         <ScrollView style={styles.container}>
             <Text style={styles.title}>{game.home_team.name} VS. {game.visitor_team.name}</Text>
             <View style={styles.headerBody}>
-                <TouchableOpacity style={styles.credit}><FontAwesome6 name="coins" size={15} color="black" /><Text>{amount}</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.credit}><FontAwesome6 name="coins" size={15} color="black" />{user && (<Text>{user.credit}</Text>)}</TouchableOpacity>
                 <View style={styles.score}>
                     <Text style={styles.textScore}>Score</Text>
                     <Text style={[styles.secondaryButton, styles.textSecondaryButton]}>{homeTeamScore} - {visitorTeamScore}</Text>

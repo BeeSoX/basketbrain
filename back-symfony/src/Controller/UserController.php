@@ -86,6 +86,61 @@ class UserController extends AbstractController
         ], JsonResponse::HTTP_OK);
     }
 
+    #[Route('/add/credit', name: 'addCredit', methods: ['POST'])]
+    public function addCredit(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!isset($data['credit'])) {
+            return new JsonResponse(['message' => 'Impossible d\'ajouter rien'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['userEmail' => $data['email']]);
+        $user->setUserCredit($user->getUserCredit()+$data['credit']);
+        $userData = [
+            'firstname' => $user->getUserFirstname(),
+            'lastname' => $user->getUserLastname(),
+            'email' => $user->getUserEmail(),
+            'credit' => $user->getUserCredit(),
+        ];
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return new JsonResponse([
+            'message' => 'Crédit ajouté avec succès',
+            'user' => $userData,
+        ], JsonResponse::HTTP_OK);
+    }
+
+    #[Route('/remove/credit', name: 'removeCredit', methods: ['POST'])]
+    public function removeCredit(Request $request): JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!isset($data['credit'])) {
+            return new JsonResponse(['message' => 'Impossible d\'ajouter rien'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+
+        $user = $this->entityManager->getRepository(User::class)->findOneBy(['userEmail' => $data['email']]);
+        if ($user->getUserCredit()-$data['credit'] < 0) {
+            return new JsonResponse(['message' => 'On ne veut pas que tu sois endetté'], JsonResponse::HTTP_BAD_REQUEST);
+        }
+        $user->setUserCredit($user->getUserCredit()-$data['credit']);
+        $userData = [
+            'firstname' => $user->getUserFirstname(),
+            'lastname' => $user->getUserLastname(),
+            'email' => $user->getUserEmail(),
+            'credit' => $user->getUserCredit(),
+        ];
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+
+        return new JsonResponse([
+            'message' => 'Crédit enlevé avec succès',
+            'user' => $userData,
+        ], JsonResponse::HTTP_OK);
+    }
+
     #[Route('/me', name: 'user_profile', methods: ['GET'])]
     public function getProfile(UserInterface $user): JsonResponse
     {
