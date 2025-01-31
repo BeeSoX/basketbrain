@@ -7,7 +7,7 @@ const BottomMenu = () => {
 
     return (
         <View style={styles.menu}>
-            <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Profil')}>
+            <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Profile')}>
                 <Text style={styles.menuText}>Profil</Text>
             </TouchableOpacity>
             <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Home')}>

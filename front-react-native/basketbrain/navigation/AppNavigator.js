@@ -6,6 +6,8 @@ import RegisterScreen from "../screens/RegisterScreen";
 import MatchScreen from "../screens/MatchScreen";
 import CreditScreen from "../screens/CreditScreen";
 // import TabNavigator from "./TabNavigator";
+import ProfileScreen from "../screens/ProfileScreen";
+
 
 
 const Stack = createNativeStackNavigator();
@@ -43,6 +45,10 @@ const AppNavigator = () => {
             <Stack.Screen
                 name="Credit"
                 component={CreditScreen}
+            />
+            <Stack.Screen
+                name="Profile"
+                component={ProfileScreen}
             />
             {/*<Stack.Screen*/}
             {/*    name="TabNavigator"*/}
