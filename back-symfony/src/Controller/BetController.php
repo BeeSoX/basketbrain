@@ -47,22 +47,31 @@ class BetController extends AbstractController
     #[Route('/new', name: 'app_bet_create', methods: ['POST'])]
     public function create(EntityManagerInterface $entityManager, SerializerInterface $serializer, Request $request): JsonResponse
     {
-        $postData = json_decode($request->getContent(), true);
+        $data = json_decode($request->getContent(), true);
 
-        $data = $serializer->deserialize($request->getContent(), Bet::class, 'json');
-        $user_id = $postData['user']['id'];
-        $user = $entityManager->getRepository(User::class)->find($user_id);
+        $user = $entityManager->getRepository(User::class)->findOneBy(['userEmail' => $data['email']]);
         $bet = new Bet();
         $bet->setUser($user);
-        $bet->setBetDate($data->getBetDate());
-        $bet->setBetGame($data->getBetGame());
-        $bet->setBetWin($data->getBetWin());
-        $bet->setBetAmount($data->getBetAmount());
-        $bet->setBetOdd($data->getBetOdd());
-
+        $bet->setBetDate(new \DateTime($data['betDate']));
+        $bet->setBetGame($data['betGame']);
+        $bet->setBetWin($data['betWin']);
+        $bet->setBetAmount($data['betAmount']);
+        $bet->setBetOdd($data['betOdd']);
         $entityManager->persist($bet);
         $entityManager->flush();
+        $user->setUserCredit($user->getUserCredit()+$bet->getBetAmount()*$bet->getBetOdd());
+        $entityManager->persist($user);
+        $entityManager->flush();
+        $userData = [
+            'firstname' => $user->getUserFirstname(),
+            'lastname' => $user->getUserLastname(),
+            'email' => $user->getUserEmail(),
+            'credit' => $user->getUserCredit(),
+        ];
 
-        return new JsonResponse($serializer->serialize($bet, 'json'), Response::HTTP_CREATED, [], true);
+        return new JsonResponse([
+            'message' => 'Paris ajouté avec succès',
+            'user' => $userData,
+        ], JsonResponse::HTTP_OK);
     }
 }
