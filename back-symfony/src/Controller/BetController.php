@@ -15,9 +15,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Serializer\SerializerInterface;
 
+#[Route('/api/bet')]
 class BetController extends AbstractController
 {
-    #[Route('/bets', name: 'app_bet', methods: ['GET'])]
+    #[Route('/all', name: 'app_bet', methods: ['GET'])]
     public function index(BetRepository $betRepository, SerializerInterface $serializer): JsonResponse
     {
         $bets = $betRepository->findAll();
@@ -25,7 +26,7 @@ class BetController extends AbstractController
         return new JsonResponse($allbets, 200, [], true);
     }
 
-    #[Route('/bets/{id}', name: 'app_bet_user', methods: ['GET'])]
+    #[Route('/user/{id}', name: 'app_bet_user', methods: ['GET'])]
     public function show(BetRepository $betRepository, UserRepository $userRepository, SerializerInterface $serializer, $id): JsonResponse
     {
         $user = $userRepository->find($id);
@@ -43,7 +44,7 @@ class BetController extends AbstractController
         return new JsonResponse($bet, 200, [], true);
     }
 
-    #[Route('/bet', name: 'app_bet_create', methods: ['POST'])]
+    #[Route('/new', name: 'app_bet_create', methods: ['POST'])]
     public function create(EntityManagerInterface $entityManager, SerializerInterface $serializer, Request $request): JsonResponse
     {
         $postData = json_decode($request->getContent(), true);
