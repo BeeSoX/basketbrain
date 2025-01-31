@@ -4,7 +4,7 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 const MatchScreen = ({route}) => {
     let win;
-    const [amount, setAmount] = useState(0);
+    const [amount, setAmount] = useState(100);
     const {game} = route.params;
     const [data, setData] = useState([]);
     const [homeTeamWins, setHomeTeamWins] = useState(0);
@@ -143,9 +143,19 @@ const MatchScreen = ({route}) => {
             if (finalHomeScore > finalVisitorScore) {
                 win = game.home_team.name;
                 setAmount(prevAmount => prevAmount + amountHome * oddHomeTeam);
+                if (oddVisitorTeam !== 0) {
+                    if (amount - amountVisitor * (oddVisitorTeam *0.8) > 0) {
+                        setAmount(amount - amountVisitor * (oddVisitorTeam *0.8));
+                    }
+                }
             } else {
                 win = game.visitor_team.name;
                 setAmount(prevAmount => prevAmount + amountVisitor * oddVisitorTeam);
+                if (oddHomeTeam !== 0) {
+                    if (amount - amountHome * (oddHomeTeam *0.8) > 0) {
+                        setAmount(amount - amountHome * (oddHomeTeam *0.8));
+                    }
+                }
             }
 
         }, 100);
