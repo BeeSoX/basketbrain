@@ -49,10 +49,7 @@ const HomeScreen = ({navigation}) => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={styles.credit}>
-                    <FontAwesome6 name="coins" size={15} color="black" />
-                    {user && <Text>{user.credit}</Text>}
-                </TouchableOpacity>
+                <TouchableOpacity style={styles.credit} onPress={() => navigation.navigate('Credit')}><FontAwesome6 name="coins" size={15} color="black" />{user && (<Text>{user.credit}</Text>)}</TouchableOpacity>
                 <Text style={[styles.title, styles.text]}>BasketBrain</Text>
                 <TouchableOpacity style={styles.primaryButton} onPress={stackLogin}><FontAwesome name="user" size={24} color="white" /></TouchableOpacity>
             </View>
