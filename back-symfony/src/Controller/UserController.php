@@ -73,9 +73,16 @@ class UserController extends AbstractController
             return new JsonResponse(['message' => 'Identifiants invalides'], JsonResponse::HTTP_UNAUTHORIZED);
         }
 
+        $userData = [
+            'firstname' => $user->getUserFirstname(),
+            'lastname' => $user->getUserLastname(),
+            'email' => $user->getUserEmail(),
+            'credit' => $user->getUserCredit(),
+        ];
+
         return new JsonResponse([
             'message' => 'Connexion réussie',
-            'user' => $this->serializer->normalize($user, null, ['groups' => 'user:read'])
+            'user' => $userData,
         ], JsonResponse::HTTP_OK);
     }
 
