@@ -102,3 +102,7 @@ Ce job permet de jouer les tests PHPUnit mis en place dans le backend.
     - Installe le Symfony Debug Bundle comme dépendance de développement.
     - Configure la base de données en la créant si elle n'existe pas et met à jour le schéma.
     - Exécute les tests PHPUnit avec la variable d'environnement de base de données spécifiée.
+## Conclusion :
+La pipeline CI fonctionne et mériterait quelques améliorations :
+- Ajout de tests plus pertinents
+- Charger des fixtures pour tester la persistance des données en BDD
