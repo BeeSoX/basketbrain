@@ -52,6 +52,9 @@ const ProfileScreen = ({ navigation }) => {
                 <Text style={styles.label}>Email :</Text>
                 <Text style={styles.value}>{user.email}</Text>
 
+                <Text style={styles.label}>Credit :</Text>
+                <Text style={styles.value}>{user.credit}</Text>
+
             </View>
 
 
