@@ -31,6 +31,11 @@ symfony console doctrine:database:create
 symfony console doctrine:migrations:migrate
 ```
 
+### Démarrer Back-end et modifier urls au besoin
 ATTENTION, pensez à modifier dans le fichier .env à la racine de /back-symfony la ligne DATABASE_URL si jamais vous souhaitez essayer l'application en local ou réseau local.
-De plus, le front-end appelant les routes du back-end, vous pouvez changer à votre guise l'adresse ip selon si vous voulez essayer en local ou réseau local, par exemple, changer 192.168.1.41:8000 en 127.0.0.1:8000 et inversement.
-Retrouvez votre adresse IP grâce à un ipconfig (Windows) ou ifconfig (Linux | Mac), si en réseau local ça ne fonctionne pas, lancer le serveur back-end avec cette commande php -S 0.0.0.0:8000 -t public
+De plus, le front-end appelant les routes du back-end, vous pouvez changer à votre guise l'adresse ip selon si vous voulez essayer en local ou réseau local, par exemple, changer ```192.168.1.41:8000``` en ```127.0.0.1:8000``` et inversement.
+Retrouvez votre adresse IP grâce à un ```ipconfig``` (Windows) ou ```ifconfig``` (Linux | Mac) sur une invite de commande, si en réseau local ça ne fonctionne pas, lancer le serveur back-end avec cette commande ```php -S 0.0.0.0:8000 -t public```
+pour le démarrer en local : ```symfony serve```, pour cela il faut être placé dans le back-symfony et penser à faire un ```composer install```
+
+### Démarrer front -end
+Se placer dans ```front-react-native/basketbrain``` faire ```npm install``` puis ```npm update``` et enfin ```npm start``` et voila !
