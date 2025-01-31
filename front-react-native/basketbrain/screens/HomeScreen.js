@@ -1,12 +1,12 @@
-import {StyleSheet, Text, View, TouchableOpacity, FlatList} from 'react-native';
-import {React, useEffect, useState} from 'react';
+import { StyleSheet, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { React, useEffect, useState } from 'react';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import BottomMenu from "../component/BottomMenu";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const HomeScreen = ({navigation}) => {
+const HomeScreen = ({ navigation }) => {
     const [user, setUser] = useState(null);
     const connected = async () => {
         const userData = await AsyncStorage.getItem('userData');
@@ -61,32 +61,32 @@ const HomeScreen = ({navigation}) => {
                     </Text>
                 )}
                 <FlatList data={data} scrollEnabled={true}
-                          renderItem={({item}) =>
-                              <View style={styles.bodyMatch}>
-                                  <Text style={styles.matchDate}>{item.date}</Text>
-                                  <View style={styles.matchContent}>
-                                      <Text style={styles.matchText}>
-                                          {item.home_team.name} VS. {item.visitor_team.name}
-                                      </Text>
-                                      <TouchableOpacity
-                                          style={styles.secondaryButton}
-                                          onPress={() => navigation.navigate('Match', {
-                                              game: {
-                                                  id: item.id, // id du match
-                                                  home_team: item.home_team, // objet equipe domicile
-                                                  visitor_team: item.visitor_team,
-                                                  home_team_score: 0,
-                                                  visitor_team_score: 0,
-                                              } // objet equipe visiteur
-                                          })}
-                                      >
-                                          <Text style={styles.textSecondaryButton}>Bet</Text>
-                                      </TouchableOpacity>
-                                  </View>
-                              </View>}
-                          keyExtractor={(item) => item.id}
-                          contentContainerStyle={{ paddingBottom: 100 }}
-                          showsVerticalScrollIndicator={false}/>
+                    renderItem={({ item }) =>
+                        <View style={styles.bodyMatch}>
+                            <Text style={styles.matchDate}>{item.date}</Text>
+                            <View style={styles.matchContent}>
+                                <Text style={styles.matchText}>
+                                    {item.home_team.name} VS. {item.visitor_team.name}
+                                </Text>
+                                <TouchableOpacity
+                                    style={styles.secondaryButton}
+                                    onPress={() => navigation.navigate('Match', {
+                                        game: {
+                                            id: item.id, // id du match
+                                            home_team: item.home_team, // objet equipe domicile
+                                            visitor_team: item.visitor_team,
+                                            home_team_score: 0,
+                                            visitor_team_score: 0,
+                                        } // objet equipe visiteur
+                                    })}
+                                >
+                                    <Text style={styles.textSecondaryButton}>Bet</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>}
+                    keyExtractor={(item) => item.id}
+                    contentContainerStyle={{ paddingBottom: 100 }}
+                    showsVerticalScrollIndicator={false} />
             </View>
             <BottomMenu />
         </View>
