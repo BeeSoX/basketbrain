@@ -2,6 +2,7 @@
 BasketBrain est une application développée avec un front-end en React Native et un back-end en Symfony avec MySQL. Elle permet aux utilisateurs de parier sur les matchs de basketball et de gérer leurs crédits tout en pariant sur les matchs disponible ( récupéré via une api ).
 ### Organisation du projet :
 - Conception du projet en commun
+- Le développement est versionnée sur GitHub : https://github.com/BeeSoX/basketbrain
 - Création de tickets via le planning associé au projet : https://github.com/users/BeeSoX/projects/2
 - DSM matin et soir pour l'avancée du projet
 - Séparation des tâches :
