@@ -21,6 +21,7 @@ BasketBrain est une application développée avec un front-end en React Native e
 - Ajout d’un classement des joueurs basé sur leurs performances aux paris
 - Renforcement de la fiabilité du back-end avec plus de tests unitaires PHP
 - Finaliser la conteneurisation de l'application
+- Revoir la conception des paris en back-end pour mieux gérer la persistance des données et la réutilisation
 ### Conclusion:
 Le projet avance bien et les fonctionnalités principales sont en place.
 Il reste à finaliser la gestion des historiques et à améliorer l’expérience utilisateur avec un système de classement.
